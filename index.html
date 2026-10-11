@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuvaraj | AI/ML Engineer</title>
+    
+    <!-- Tailwind CSS for rapid styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Space Grotesk (Headings) and Fira Code (Terminal) -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Config for Custom Colors & Fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        neon: {
+                            cyan: '#00f3ff',
+                            purple: '#bc13fe',
+                            dark: '#050510',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050510;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Neural Network Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none; /* Let clicks pass through */
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(10, 10, 25, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        /* Neon Glow Hover Effects */
+        .hover-glow-cyan:hover {
+            border-color: #00f3ff;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.4), inset 0 0 10px rgba(0, 243, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .hover-glow-purple:hover {
+            border-color: #bc13fe;
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.4), inset 0 0 10px rgba(188, 19, 254, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Blinking Cursor for Typing Effect */
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.2em;
+            background-color: #00f3ff;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050510;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bc13fe;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00f3ff;
+        }
+
+        /* Text Gradients */
+        .text-gradient {
+            background: linear-gradient(to right, #00f3ff, #bc13fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
+
+    <canvas id="bg-canvas"></canvas>
+
+    <main class="w-full max-w-4xl z-10 flex flex-col gap-8">
+        
+        <!-- Hero Section -->
+        <header class="glass-panel rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden flex flex-col items-center">
+            <!-- Decorative background blob -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-neon-cyan/20 rounded-full blur-[80px] pointer-events-none"></div>
+            
+            <div class="relative z-10">
+                <div class="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full border-2 border-neon-cyan p-1 mb-6 shadow-[0_0_20px_rgba(0,243,255,0.3)]">
+                    <!-- Placeholder avatar - looks like an AI core -->
+                    <div class="w-full h-full rounded-full bg-gradient-to-br from-gray-800 to-black flex items-center justify-center overflow-hidden relative">
+                        <i class="fa-solid fa-brain text-4xl sm:text-5xl text-neon-cyan animate-pulse-slow"></i>
+                    </div>
+                </div>
+                
+                <h1 class="text-4xl sm:text-6xl font-bold mb-4 tracking-tight">
+                    Hi, I'm <span class="text-gradient">Yuvaraj</span>
+                </h1>
+                
+                <div class="h-8 flex items-center justify-center text-sm sm:text-lg text-gray-300 font-mono">
+                    <span class="text-neon-cyan mr-2">></span>
+                    <span id="typing-text"></span><span class="cursor"></span>
+                </div>
+                
+                <p class="mt-6 text-gray-400 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                    Passionate about blurring the lines between software and hardware. Building intelligent computer vision systems, optimizing algorithmic efficiency, and engineering smart IoT solutions from the ground up.
+                </p>
+            </div>
+        </header>
+
+        <!-- Connect Section (Link Tree) -->
+        <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+            <a href="https://linkedin.com/in/YOUR_LINKEDIN_HERE" target="_blank" class="glass-card hover-glow-cyan rounded-2xl p-6 flex flex-col items-center justify-center gap-3 group relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-[#0077b5]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <i class="fa-brands fa-linkedin text-4xl text-[#0077b5] group-hover:text-white transition-colors z-10"></i>
+                <h3 class="font-bold text-lg z-10">LinkedIn</h3>
+                <span class="text-xs text-gray-400 font-mono z-10">Let's Connect</span>
+            </a>
+
+            <a href="https://github.com/yuvii8055" target="_blank" class="glass-card hover-glow-purple rounded-2xl p-6 flex flex-col items-center justify-center gap-3 group relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <i class="fa-brands fa-github text-4xl text-gray-200 group-hover:text-white transition-colors z-10"></i>
+                <h3 class="font-bold text-lg z-10">GitHub</h3>
+                <span class="text-xs text-gray-400 font-mono z-10">@yuvii8055</span>
+            </a>
+
+            <a href="https://leetcode.com/u/yuvii8055/" target="_blank" class="glass-card hover-glow-cyan rounded-2xl p-6 flex flex-col items-center justify-center gap-3 group relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-[#ffa116]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <i class="fa-solid fa-code text-4xl text-[#ffa116] group-hover:text-white transition-colors z-10"></i>
+                <h3 class="font-bold text-lg z-10">LeetCode</h3>
+                <span class="text-xs text-gray-400 font-mono z-10">Problem Solving</span>
+            </a>
+        </section>
+
+        <!-- Tech Arsenal Section -->
+        <section class="glass-panel rounded-3xl p-8 w-full">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <i class="fa-solid fa-microchip text-neon-purple"></i> Tech Arsenal
+            </h2>
+            <div class="flex flex-wrap gap-3">
+                <!-- Skill Badges -->
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-cyan hover:text-neon-cyan transition-colors cursor-default">Python</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-cyan hover:text-neon-cyan transition-colors cursor-default">C / C++</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-cyan hover:text-neon-cyan transition-colors cursor-default">Java</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-purple hover:text-neon-purple transition-colors cursor-default">OpenCV</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-purple hover:text-neon-purple transition-colors cursor-default">YOLOv8</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-cyan hover:text-neon-cyan transition-colors cursor-default">Arduino (IoT)</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-cyan hover:text-neon-cyan transition-colors cursor-default">ESP32</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-purple hover:text-neon-purple transition-colors cursor-default">Data Structures</div>
+                <div class="px-4 py-2 rounded-full border border-gray-700 bg-gray-800/50 text-sm font-mono hover:border-neon-purple hover:text-neon-purple transition-colors cursor-default">Algorithms</div>
+            </div>
+        </section>
+
+        <!-- Featured Projects Section -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            
+            <!-- Project 1 -->
+            <div class="glass-panel rounded-3xl p-6 group relative overflow-hidden h-64 flex flex-col justify-end border-t border-l border-white/10 hover:border-neon-cyan/50 transition-all duration-500">
+                <!-- Abstract bg pattern -->
+                <div class="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-cyan-900 via-gray-900 to-black"></div>
+                
+                <div class="relative z-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center text-neon-cyan mb-4 border border-cyan-500/30">
+                        <i class="fa-solid fa-solar-panel text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Auto Sunlight Tracking System</h3>
+                    <p class="text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                        Hardware-integrated IoT solution using LDR sensors and microcontrollers to autonomously orient solar panels for maximum energy yield.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="glass-panel rounded-3xl p-6 group relative overflow-hidden h-64 flex flex-col justify-end border-t border-l border-white/10 hover:border-neon-purple/50 transition-all duration-500">
+                <!-- Abstract bg pattern -->
+                <div class="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-purple-900 via-gray-900 to-black"></div>
+                
+                <div class="relative z-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center text-neon-purple mb-4 border border-purple-500/30">
+                        <i class="fa-solid fa-users-viewfinder text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Intelligent Queue Predictor</h3>
+                    <p class="text-sm text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                        Computer vision model built with OpenCV and YOLO. Analyzes crowd density in real-time to predict wait times and optimize resource allocation.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+        
+        <footer class="text-center text-gray-500 text-sm mt-4 pb-8">
+            <p>Designed & Built for the Future.</p>
+        </footer>
+    </main>
+
+    <script>
+        // --- 1. Typing Effect Logic ---
+        const phrases = [
+            "AI/ML Engineering Student @ DSATM",
+            "Algorithmic Problem Solver",
+            "IoT & Embedded Systems Enthusiast",
+            "Computer Vision Developer"
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById("typing-text");
+        
+        function typeEffect() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typingSpeed = isDeleting ? 30 : 80;
+            
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typingSpeed = 2000; // Pause at end of phrase
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typingSpeed = 500; // Pause before starting new phrase
+            }
+            
+            setTimeout(typeEffect, typingSpeed);
+        }
+        
+        // Start typing effect
+        setTimeout(typeEffect, 1000);
+
+
+        // --- 2. Neural Network Canvas Background ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+        
+        // Configuration
+        const particleCount = window.innerWidth < 768 ? 40 : 80; // Less on mobile
+        const connectionDistance = 150;
+        let mouseX = -1000;
+        let mouseY = -1000;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Track mouse movement to make nodes react
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        document.addEventListener('mouseleave', () => {
+            mouseX = -1000;
+            mouseY = -1000;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.radius = Math.random() * 1.5 + 0.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Subtle interaction with mouse (slight attraction)
+                const dx = mouseX - this.x;
+                const dy = mouseY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 200) {
+                    this.x += dx * 0.01;
+                    this.y += dy * 0.01;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 243, 255, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Update and draw particles
+            particles.forEach(p => p.update());
+            
+            // Draw connections (Neural net effect)
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        
+                        // Opacity based on distance
+                        const opacity = 1 - (distance / connectionDistance);
+                        
+                        // Mix cyan and purple for the lines
+                        ctx.strokeStyle = `rgba(188, 19, 254, ${opacity * 0.3})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+                particles[i].draw();
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Start animation
+        animate();
+    </script>
+</body>
+</html>
